@@ -1,10 +1,13 @@
 # System Knowledge Base
 
-Last updated: 2026-04-12T20:19:41.543Z
-Total entries: 3
-Modules: 3
+Last updated: 2026-04-12T20:20:12.476Z
+Total entries: 4
+Modules: 4
 
 ## Modules
+
+### api-routes
+- Implemented GET /api/sessions/[sessionId]/[agentSessionId]/messages route (2026-04-12) — `8402211f-de1c-41aa-ac6d-77c348c55018`
 
 ### api/sessions
 - Implemented GET /api/sessions route proxying to Omnara session detail (2026-04-12) — `7896eb7d-5225-457a-8627-4df91b437422`
@@ -17,6 +20,8 @@ Modules: 3
 
 ## Assumptions (all)
 
+- api-routes: Omnara API response shape matches MessagesResponse type
+- api-routes: No auth needed beyond server-side OMNARA_API_TOKEN
 - lib/messageMapper: payload.content shape from GET messages matches ImportMessageContent shape expected by import endpoint
 - lib/messageMapper: system messages should be dropped rather than mapped
 - lib/omnara: Omnara API response shapes match docs as of 2026-04-12

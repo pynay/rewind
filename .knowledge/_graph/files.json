@@ -1,4 +1,7 @@
 {
+  "app/api/sessions/[sessionId]/[agentSessionId]/messages/route.ts": [
+    "8402211f-de1c-41aa-ac6d-77c348c55018"
+  ],
   "app/api/sessions/route.ts": [
     "7896eb7d-5225-457a-8627-4df91b437422"
   ],
