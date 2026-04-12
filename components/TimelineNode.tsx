@@ -45,6 +45,9 @@ export function TimelineNode({
   const contentType = (content.type as string) ?? "text";
   const text = content.text as string | undefined;
   const toolName = content.name as string | undefined;
+  const toolArgs = content.arguments as Record<string, unknown> | undefined;
+  const toolOutput = content.output as Record<string, unknown> | string | undefined;
+  const isError = content.is_error as boolean | undefined;
 
   const kind = message.sender.kind as SenderKind;
   const isTool = contentType === "tool_call" || contentType === "tool_result";
@@ -160,9 +163,62 @@ export function TimelineNode({
           >
             {text}
           </p>
-        ) : isTool ? (
-          <p style={{ fontSize: "12px", color: "#484f58", fontStyle: "italic", margin: 0 }}>
-            {contentType === "tool_call" ? "Invoking tool…" : "Result received"}
+        ) : contentType === "tool_call" ? (
+          <div style={{ fontSize: "12px", color: "#8b949e", margin: 0 }}>
+            {toolArgs?.description ? (
+              <p style={{ margin: 0, color: "#c9d1d9" }}>
+                {toolArgs.description as string}
+              </p>
+            ) : null}
+            {toolArgs?.command ? (
+              <pre
+                style={{
+                  margin: toolArgs?.description ? "6px 0 0" : 0,
+                  padding: "8px 10px",
+                  background: "#161b22",
+                  border: "1px solid #21262d",
+                  borderRadius: "4px",
+                  fontSize: "11px",
+                  color: "#e6edf3",
+                  overflow: "auto",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-all",
+                  maxHeight: "120px",
+                  fontFamily: "monospace",
+                }}
+              >
+                {toolArgs.command as string}
+              </pre>
+            ) : null}
+          </div>
+        ) : contentType === "tool_result" ? (
+          <div style={{ fontSize: "12px", margin: 0 }}>
+            <pre
+              style={{
+                margin: 0,
+                padding: "8px 10px",
+                background: isError ? "rgba(248,81,73,0.08)" : "#161b22",
+                border: `1px solid ${isError ? "rgba(248,81,73,0.3)" : "#21262d"}`,
+                borderRadius: "4px",
+                fontSize: "11px",
+                color: isError ? "#f85149" : "#8b949e",
+                overflow: "auto",
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-all",
+                maxHeight: "160px",
+                fontFamily: "monospace",
+              }}
+            >
+              {typeof toolOutput === "string"
+                ? toolOutput
+                : (toolOutput as Record<string, unknown>)?.value
+                  ? String((toolOutput as Record<string, unknown>).value).slice(0, 500)
+                  : "No output"}
+            </pre>
+          </div>
+        ) : isSystem ? (
+          <p style={{ fontSize: "11px", color: "#484f58", fontStyle: "italic", margin: 0 }}>
+            {contentType.replace(/_/g, " ")}
           </p>
         ) : null}
 

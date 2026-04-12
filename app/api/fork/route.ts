@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
     // Step 5 — Launch a new session with the correction prompt
     await launchWorkspaceSession(workspace_id, {
       user_session_id: importResult.user_session_id,
-      resume_session_id: importResult.agent_session_id,
+      agent_session_id: importResult.agent_session_id,
       initial_prompt:
         "The workspace is freshly cloned from the latest checkpoint. Re-apply the changes we discussed in our conversation so far, then: " +
         correction_prompt,
