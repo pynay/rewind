@@ -1,14 +1,24 @@
 {
-  "lib/messageMapper": {
+  "api/fork": {
     "depends_on": [
-      "lib/omnara"
+      "lib/omnara",
+      "lib/messageMapper"
     ],
     "depended_on_by": []
   },
   "lib/omnara": {
     "depends_on": [],
     "depended_on_by": [
+      "api/fork",
       "lib/messageMapper"
+    ]
+  },
+  "lib/messageMapper": {
+    "depends_on": [
+      "lib/omnara"
+    ],
+    "depended_on_by": [
+      "api/fork"
     ]
   }
 }

@@ -1,4 +1,18 @@
 {
+  "api/fork": [
+    {
+      "assumption": "getAgentSessionMessages pagination uses after_id cursor with has_more flag",
+      "entry_id": "005c550c-95c7-453b-b429-9a081b0f2b1c"
+    },
+    {
+      "assumption": "importClaudeSession returns user_session_id and agent_session_id on success",
+      "entry_id": "005c550c-95c7-453b-b429-9a081b0f2b1c"
+    },
+    {
+      "assumption": "launchWorkspaceSession accepts resume_session_id to continue from imported session",
+      "entry_id": "005c550c-95c7-453b-b429-9a081b0f2b1c"
+    }
+  ],
   "lib/messageMapper": [
     {
       "assumption": "payload.content shape from GET messages matches ImportMessageContent shape expected by import endpoint",
