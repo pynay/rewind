@@ -1,10 +1,13 @@
 # System Knowledge Base
 
-Last updated: 2026-04-12T20:20:12.476Z
-Total entries: 4
-Modules: 4
+Last updated: 2026-04-12T20:24:32.926Z
+Total entries: 5
+Modules: 5
 
 ## Modules
+
+### api/fork
+- Implemented POST /api/fork route — core fork-and-rewind feature (2026-04-12) — `005c550c-95c7-453b-b429-9a081b0f2b1c`
 
 ### api-routes
 - Implemented GET /api/sessions/[sessionId]/[agentSessionId]/messages route (2026-04-12) — `8402211f-de1c-41aa-ac6d-77c348c55018`
@@ -20,6 +23,9 @@ Modules: 4
 
 ## Assumptions (all)
 
+- api/fork: getAgentSessionMessages pagination uses after_id cursor with has_more flag
+- api/fork: importClaudeSession returns user_session_id and agent_session_id on success
+- api/fork: launchWorkspaceSession accepts resume_session_id to continue from imported session
 - api-routes: Omnara API response shape matches MessagesResponse type
 - api-routes: No auth needed beyond server-side OMNARA_API_TOKEN
 - lib/messageMapper: payload.content shape from GET messages matches ImportMessageContent shape expected by import endpoint
