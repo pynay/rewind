@@ -147,6 +147,7 @@ export interface ImportSessionRequest {
   workspace_id: string;
   worktree_name?: string | null;
   claude_session_id: string;
+  provider_session_id: string;
   messages: ImportMessage[];
   session_name?: string | null;
 }

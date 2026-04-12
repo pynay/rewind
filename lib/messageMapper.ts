@@ -12,6 +12,7 @@
  *   sender.kind "user"          -> role "user"
  *   sender.kind "agent_session" -> role "assistant"
  *   sender.kind "system"        -> filtered out (import only accepts user/assistant)
+ *   payload.content.type "agent_progress" / "agent_complete" -> filtered out (status pings, not conversation)
  *   payload.content             -> content (passed through — shape already matches)
  */
 
@@ -29,13 +30,19 @@ function senderKindToRole(kind: string): "user" | "assistant" | null {
   }
 }
 
+/** Content types that are actual conversation turns, not status pings. */
+const IMPORTABLE_CONTENT_TYPES = new Set(["text", "tool_call", "tool_result"]);
+
 /** Map a single GET message to the import format. Returns null for non-importable messages. */
 function mapOne(msg: AgentMessage): ImportMessage | null {
   const role = senderKindToRole(msg.sender.kind);
   if (!role) return null;
 
+  const contentType = msg.payload.content?.type as string | undefined;
+  if (!contentType || !IMPORTABLE_CONTENT_TYPES.has(contentType)) return null;
+
   return {
-    message_id: msg.message_id,
+    message_id: crypto.randomUUID(),
     role,
     content: msg.payload.content as unknown as ImportMessageContent,
     created_at: msg.created_at,

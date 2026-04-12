@@ -78,9 +78,13 @@ export async function POST(request: NextRequest) {
     const mappedMessages = mapMessagesForImport(truncated);
 
     // Step 4 — Import the truncated session
+    // Use a unique ID per fork so each import creates a fresh session
+    // (Omnara deduplicates on claude_session_id/provider_session_id)
+    const forkId = crypto.randomUUID();
     const importResult = await importClaudeSession({
       workspace_id,
-      claude_session_id: agent_session_id,
+      claude_session_id: forkId,
+      provider_session_id: forkId,
       messages: mappedMessages,
       session_name: null,
     });
