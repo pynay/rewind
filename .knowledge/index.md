@@ -1,10 +1,13 @@
 # System Knowledge Base
 
-Last updated: 2026-04-12T19:55:53.512Z
-Total entries: 2
-Modules: 2
+Last updated: 2026-04-12T20:19:41.543Z
+Total entries: 3
+Modules: 3
 
 ## Modules
+
+### api/sessions
+- Implemented GET /api/sessions route proxying to Omnara session detail (2026-04-12) — `7896eb7d-5225-457a-8627-4df91b437422`
 
 ### lib/messageMapper
 - Transforms GET messages format to import-claude-session format (2026-04-12) — `77b03485-a678-45d7-98b1-33f19015c3d1`
