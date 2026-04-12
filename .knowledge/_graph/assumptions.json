@@ -1,0 +1,22 @@
+{
+  "lib/messageMapper": [
+    {
+      "assumption": "payload.content shape from GET messages matches ImportMessageContent shape expected by import endpoint",
+      "entry_id": "77b03485-a678-45d7-98b1-33f19015c3d1"
+    },
+    {
+      "assumption": "system messages should be dropped rather than mapped",
+      "entry_id": "77b03485-a678-45d7-98b1-33f19015c3d1"
+    }
+  ],
+  "lib/omnara": [
+    {
+      "assumption": "Omnara API response shapes match docs as of 2026-04-12",
+      "entry_id": "67f1d3aa-8f6b-406b-bab1-574da805ee74"
+    },
+    {
+      "assumption": "payload.content from GET messages has compatible shape with import content field",
+      "entry_id": "67f1d3aa-8f6b-406b-bab1-574da805ee74"
+    }
+  ]
+}
