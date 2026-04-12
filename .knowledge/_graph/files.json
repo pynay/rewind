@@ -2,6 +2,12 @@
   "app/api/fork/route.ts": [
     "005c550c-95c7-453b-b429-9a081b0f2b1c"
   ],
+  "app/api/sessions/[sessionId]/[agentSessionId]/messages/route.ts": [
+    "8402211f-de1c-41aa-ac6d-77c348c55018"
+  ],
+  "app/api/sessions/route.ts": [
+    "7896eb7d-5225-457a-8627-4df91b437422"
+  ],
   "lib/messageMapper.ts": [
     "77b03485-a678-45d7-98b1-33f19015c3d1"
   ],

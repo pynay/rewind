@@ -13,6 +13,16 @@
       "entry_id": "005c550c-95c7-453b-b429-9a081b0f2b1c"
     }
   ],
+  "api-routes": [
+    {
+      "assumption": "Omnara API response shape matches MessagesResponse type",
+      "entry_id": "8402211f-de1c-41aa-ac6d-77c348c55018"
+    },
+    {
+      "assumption": "No auth needed beyond server-side OMNARA_API_TOKEN",
+      "entry_id": "8402211f-de1c-41aa-ac6d-77c348c55018"
+    }
+  ],
   "lib/messageMapper": [
     {
       "assumption": "payload.content shape from GET messages matches ImportMessageContent shape expected by import endpoint",
