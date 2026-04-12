@@ -89,6 +89,16 @@ export interface SessionDetailResponse {
 }
 
 // ---------------------------------------------------------------------------
+// Types — GET /user-sessions (list)
+// ---------------------------------------------------------------------------
+
+export interface ListSessionsResponse {
+  sessions: UserSession[];
+  has_more: boolean;
+  next_cursor: string | null;
+}
+
+// ---------------------------------------------------------------------------
 // Types — GET /user-sessions/{id}/agent-sessions/{id}/messages
 // ---------------------------------------------------------------------------
 
@@ -285,4 +295,18 @@ export async function createUserSession(
     method: "POST",
     body: JSON.stringify(body),
   });
+}
+
+/** GET /api/v1/user-sessions — list recent user sessions */
+export async function listUserSessions(params?: {
+  limit?: number;
+  cursor?: string;
+  status?: "ACTIVE" | "COMPLETED" | "DELETED";
+}): Promise<ListSessionsResponse> {
+  const qs = new URLSearchParams();
+  if (params?.limit) qs.set("limit", String(params.limit));
+  if (params?.cursor) qs.set("cursor", params.cursor);
+  if (params?.status) qs.set("status", params.status);
+  const q = qs.toString();
+  return omnaraFetch(`/user-sessions${q ? `?${q}` : ""}`);
 }
