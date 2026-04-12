@@ -1,13 +1,16 @@
 # System Knowledge Base
 
 Last updated: 2026-04-12T20:20:12.476Z
-Total entries: 3
-Modules: 3
+Total entries: 4
+Modules: 4
 
 ## Modules
 
 ### api-routes
 - Implemented GET /api/sessions/[sessionId]/[agentSessionId]/messages route (2026-04-12) — `8402211f-de1c-41aa-ac6d-77c348c55018`
+
+### api/sessions
+- Implemented GET /api/sessions route proxying to Omnara session detail (2026-04-12) — `7896eb7d-5225-457a-8627-4df91b437422`
 
 ### lib/messageMapper
 - Transforms GET messages format to import-claude-session format (2026-04-12) — `77b03485-a678-45d7-98b1-33f19015c3d1`

@@ -5,10 +5,17 @@
     ],
     "depended_on_by": []
   },
+  "api/sessions": {
+    "depends_on": [
+      "lib/omnara"
+    ],
+    "depended_on_by": []
+  },
   "lib/omnara": {
     "depends_on": [],
     "depended_on_by": [
       "api-routes",
+      "api/sessions",
       "lib/messageMapper"
     ]
   },
