@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useMessages } from "@/hooks/useMessages";
 import { TimelineNode } from "./TimelineNode";
 import { ForkModal } from "./ForkModal";
+import { isDecisionPoint } from "@/lib/decisionDetector";
+import { PreviewPanel } from "./PreviewPanel";
 import type { AgentMessage } from "@/lib/omnara";
 
 interface TimelineProps {
@@ -104,6 +106,8 @@ export function Timeline({
         </button>
       )}
 
+      <PreviewPanel messages={messages} />
+
       <div>
         {messages.map((msg, idx) => (
           <TimelineNode
@@ -111,6 +115,7 @@ export function Timeline({
             message={msg}
             index={idx}
             canFork={!!workspaceId}
+            isDecisionPoint={isDecisionPoint(msg)}
             onFork={(i, m) => setForkTarget({ index: i, message: m })}
             isLast={idx === messages.length - 1}
           />

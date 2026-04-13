@@ -7,12 +7,13 @@ interface TimelineNodeProps {
   message: AgentMessage;
   index: number;
   canFork: boolean;
+  isDecisionPoint?: boolean;
   onFork: (index: number, message: AgentMessage) => void;
   isLast: boolean;
 }
 
 function fmtTime(iso: string) {
-  return new Date(iso).toLocaleTimeString(undefined, {
+  return new Date(iso).toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -36,6 +37,7 @@ export function TimelineNode({
   message,
   index,
   canFork,
+  isDecisionPoint: isDecision = false,
   onFork,
   isLast,
 }: TimelineNodeProps) {
@@ -72,13 +74,14 @@ export function TimelineNode({
           paddingTop: "14px",
         }}
       >
-        {/* Dot */}
+        {/* Dot — diamond shape for decision points, circle for others */}
         <div
           style={{
-            width: "8px",
-            height: "8px",
-            borderRadius: "50%",
-            background: hovered && canFork ? "#bdee63" : meta.dot,
+            width: isDecision ? "10px" : "8px",
+            height: isDecision ? "10px" : "8px",
+            borderRadius: isDecision ? "2px" : "50%",
+            transform: isDecision ? "rotate(45deg)" : "none",
+            background: hovered && canFork ? "#bdee63" : isDecision ? "#d2a8ff" : meta.dot,
             flexShrink: 0,
             transition: "background 0.15s",
             zIndex: 1,
@@ -99,7 +102,14 @@ export function TimelineNode({
       </div>
 
       {/* ── Body ──────────────────────────────────── */}
-      <div style={{ flex: 1, paddingBottom: "20px", paddingTop: "10px", minWidth: 0 }}>
+      <div style={{
+        flex: 1,
+        paddingBottom: "20px",
+        paddingTop: "10px",
+        minWidth: 0,
+        borderLeft: isDecision ? "2px solid #d2a8ff" : "none",
+        paddingLeft: isDecision ? "12px" : "0",
+      }}>
         {/* Header line */}
         <div
           style={{
@@ -137,6 +147,28 @@ export function TimelineNode({
               }}
             >
               {toolName}
+            </span>
+          )}
+
+          {/* Decision point pill */}
+          {isDecision && (
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "4px",
+                fontSize: "10px",
+                fontWeight: 600,
+                color: "#d2a8ff",
+                background: "rgba(210,168,255,0.08)",
+                border: "1px solid rgba(210,168,255,0.2)",
+                borderRadius: "3px",
+                padding: "2px 8px",
+                letterSpacing: "0.2px",
+                textTransform: "uppercase",
+              }}
+            >
+              ◆ Decision point
             </span>
           )}
 
@@ -250,7 +282,7 @@ export function TimelineNode({
               (e.currentTarget.style.background = "rgba(189,238,99,0.06)")
             }
           >
-            ↪ Fork from here
+            {isDecision ? "↪ Fork from this decision" : "↪ Fork from here"}
           </button>
         )}
       </div>

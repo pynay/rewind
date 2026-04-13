@@ -2,6 +2,7 @@
 
 import { usePollFork } from "@/hooks/usePollFork";
 import { TimelineNode } from "./TimelineNode";
+import { PreviewPanel } from "./PreviewPanel";
 
 interface BranchViewProps {
   sessionId: string;
@@ -120,6 +121,9 @@ export function BranchView({ sessionId, agentSessionId, workspaceId }: BranchVie
           Waiting for first message…
         </div>
       )}
+
+      {/* Preview */}
+      <PreviewPanel messages={messages} />
 
       {/* Messages */}
       <div>

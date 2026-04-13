@@ -2,6 +2,63 @@ import { listUserSessions } from "@/lib/omnara";
 import type { UserSession } from "@/lib/omnara";
 import { ManualEntryForm } from "@/components/ManualEntryForm";
 import { SessionRow } from "@/components/SessionRow";
+import { SessionGroup } from "@/components/SessionGroup";
+import { IdeaLauncher } from "@/components/IdeaLauncher";
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+interface SessionWithForks {
+  session: UserSession;
+  forks: UserSession[];
+}
+
+/** Group sessions: fork sessions nested under their originals. */
+function groupSessions(sessions: UserSession[]): SessionWithForks[] {
+  const forkMap = new Map<string, UserSession[]>();
+  const originals: UserSession[] = [];
+  const forkSessionIds = new Set<string>();
+
+  // First pass: identify forks and map them to their original session ID
+  for (const s of sessions) {
+    if (s.name?.startsWith("fork:")) {
+      const parts = s.name.split(":");
+      const origId = parts[1];
+      const existing = forkMap.get(origId) ?? [];
+      existing.push(s);
+      forkMap.set(origId, existing);
+      forkSessionIds.add(s.session_id);
+    }
+  }
+
+  // Second pass: collect originals (anything that isn't a fork)
+  for (const s of sessions) {
+    if (!forkSessionIds.has(s.session_id)) {
+      originals.push(s);
+    }
+  }
+
+  // Build grouped list
+  return originals.map((s) => ({
+    session: s,
+    forks: forkMap.get(s.session_id) ?? [],
+  }));
+}
+
+function SessionList({ sessions }: { sessions: UserSession[] }) {
+  const grouped = groupSessions(sessions);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+      {grouped.map((g) =>
+        g.forks.length > 0 ? (
+          <SessionGroup key={g.session.session_id} session={g.session} forks={g.forks} />
+        ) : (
+          <SessionRow key={g.session.session_id} session={g.session} />
+        )
+      )}
+    </div>
+  );
+}
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
@@ -85,9 +142,14 @@ export default async function Home() {
               margin: 0,
             }}
           >
-            Review and fork your Omnara agent session history.
+            Idea to MVP. Launch, watch, fork, iterate.
           </p>
         </div>
+
+        {/* ── New idea launcher ────────────────────────── */}
+        <section style={{ marginBottom: "48px" }}>
+          <IdeaLauncher />
+        </section>
 
         {/* ── Recent sessions ───────────────────────────── */}
         {listError ? (
@@ -119,11 +181,7 @@ export default async function Home() {
             >
               Recent sessions
             </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              {sessions.map((s) => (
-                <SessionRow key={s.session_id} session={s} />
-              ))}
-            </div>
+            <SessionList sessions={sessions} />
           </section>
         ) : (
           <div

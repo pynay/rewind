@@ -160,6 +160,51 @@ export function ForkModal({
           </p>
         </div>
 
+        {/* Fork templates */}
+        <div style={{ padding: "14px 24px 0" }}>
+          <div
+            style={{
+              fontSize: "10px",
+              color: "#484f58",
+              textTransform: "uppercase",
+              letterSpacing: "0.6px",
+              marginBottom: "8px",
+              fontWeight: 500,
+            }}
+          >
+            Quick prompts
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+            {[
+              { label: "Use a different library", prompt: "Use a different library or package for this instead — pick the most popular and well-maintained alternative" },
+              { label: "Add error handling", prompt: "Add proper error handling with try/catch, input validation, and user-friendly error messages" },
+              { label: "Write tests first", prompt: "Write comprehensive tests first (unit + integration) before implementing, then make the tests pass" },
+              { label: "Simplify the approach", prompt: "Take a simpler approach — reduce complexity, avoid over-engineering, use fewer dependencies" },
+              { label: "Refactor to TypeScript", prompt: "Refactor this to use TypeScript with strict types, interfaces for all data shapes, and no `any`" },
+              { label: "Improve performance", prompt: "Optimize for performance — reduce re-renders, minimize bundle size, lazy load where possible" },
+            ].map((tpl) => (
+              <button
+                key={tpl.label}
+                onClick={() => setPrompt(tpl.prompt)}
+                style={{
+                  fontSize: "11px",
+                  color: prompt === tpl.prompt ? "#bdee63" : "#8b949e",
+                  background: prompt === tpl.prompt ? "rgba(189,238,99,0.08)" : "#0d1117",
+                  border: `1px solid ${prompt === tpl.prompt ? "rgba(189,238,99,0.25)" : "#21262d"}`,
+                  borderRadius: "20px",
+                  padding: "5px 12px",
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  transition: "all 0.15s",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {tpl.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Prompt input */}
         <div style={{ padding: "18px 24px" }}>
           <label

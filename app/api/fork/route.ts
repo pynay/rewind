@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
       claude_session_id: forkId,
       provider_session_id: forkId,
       messages: mappedMessages,
-      session_name: null,
+      session_name: `fork:${session_id}:${agent_session_id}:${fork_after_index}`,
     });
 
     if (!importResult.success || !importResult.user_session_id) {
